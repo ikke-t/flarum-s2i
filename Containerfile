@@ -4,7 +4,7 @@ FROM registry.access.redhat.com/ubi9/php-82
 # and set permissions so that the container runs without root access
 USER 0
 # ADD app-src /tmp/src
-RUN git clone https://github.com/flarum/flarum.git /tmp/src -b v2.0.0-beta.3
+RUN git clone https://github.com/flarum/flarum.git /tmp/src -b v1.8.1
 ENV DOCUMENTROOT=/public
 
 RUN chown -R 1001:0 /tmp/src
