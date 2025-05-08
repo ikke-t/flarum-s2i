@@ -42,3 +42,17 @@ modified composer.json, do:
 ```
 podman exec -ti flarum sh -c 'php composer.phar require fof/upload:"*"'
 ```
+
+# S2I
+
+If you just want to quickly build similar manually, this is the way:
+
+```
+is2i build \
+  -U unix://${XDG_RUNTIME_DIR}/podman/podman.sock .\
+  https://github.com/flarum/flarum \
+  -r master \
+   registry.access.redhat.com/ubi9/php-82:latest
+  -e DOCUMENTROOT=/public \
+  flarum:latest
+```
