@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi9/php-82
+FROM registry.access.redhat.com/ubi9/php-82
 
 # Add application sources to a directory that the assemble script expects them
 # and set permissions so that the container runs without root access
