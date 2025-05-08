@@ -48,7 +48,7 @@ podman exec -ti flarum sh -c 'php composer.phar require fof/upload:"*"'
 If you just want to quickly build similar manually, this is the way:
 
 ```
-is2i build \
+s2i build \
   -U unix://${XDG_RUNTIME_DIR}/podman/podman.sock .\
   https://github.com/flarum/flarum \
   -r master \
