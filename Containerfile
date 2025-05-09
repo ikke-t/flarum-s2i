@@ -13,5 +13,11 @@ USER 1001
 # Install the dependencies
 RUN /usr/libexec/s2i/assemble
 
+RUN tar czf /var/tmp/s2i-volume-save.tgz storage public/assets
+
+COPY restore_volumes.sh ${PHP_CONTAINER_SCRIPTS_PATH}/pre-start/105_restore_volumes.sh
+
+VOLUME $HOME/public/assets $HOME/storage
+
 # Set the default command for the resulting image
 CMD /usr/libexec/s2i/run
