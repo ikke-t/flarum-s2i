@@ -1,0 +1,40 @@
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flarum
+  namespace: flarum
+  labels:
+    app: flarum
+data:
+  config: |
+    <?php return array (
+      'debug' => false,
+      'database' => 
+      array (
+        'driver' => 'mysql',
+        'host' => 'CHANGE_ME',
+        'port' => 3306,
+        'database' => 'CHANGE_ME',
+        'username' => 'CHANGE_ME',
+        'password' => 'CHANGE_ME',
+        'charset' => 'utf8mb4',
+        'collation' => 'utf8mb4_unicode_ci',
+        'prefix' => 'CHANGE_ME',
+        'strict' => false,
+        'engine' => 'InnoDB',
+        'prefix_indexes' => true,
+      ),
+      'url' => 'CHANGE_ME',
+      'paths' => 
+      array (
+        'api' => 'api',
+        'admin' => 'admin',
+      ),
+      'headers' => 
+      array (
+        'poweredByHeader' => true,
+        'referrerPolicy' => 'same-origin',
+      ),
+    );

@@ -1,0 +1,15 @@
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: flarum-assets
+  namespace: flarum
+  labels:
+    app: flarum
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
