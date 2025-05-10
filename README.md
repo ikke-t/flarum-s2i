@@ -59,6 +59,12 @@ if the volumes are empty. Might be you build a new version or add an
 extension in new version, then you probably need to restore the files again
 manually.
 
+# Kubernetes
+
+I run this on microshift, a minimal OpenShift instance. My kube definitions
+can be found in [kube](./kube) directory. Just modify them to your needs
+and `kubectl create -f` them.
+
 # S2I
 
 If you just want to quickly build similar manually, this is the way:
