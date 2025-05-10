@@ -35,13 +35,29 @@ Run the Flarum:
 podman run -d --rm --name flarum --replace -p 8080:8080 flarum:2.0.0-beta.3
 ```
 
-You might want to mount the `settings.php` and perhaps the upload directory if using such. 
+You might want to mount the `settings.php` and perhaps the upload directory if using such.
 If you want to test some extensions before building such container with
 modified composer.json, do:
 
 ```
 podman exec -ti flarum sh -c 'php composer.phar require fof/upload:"*"'
 ```
+
+# Saving run time data
+
+Containers define volumes for file uploads and other persistent data:
+
+* /opt/app-root/src/storage
+* /opt/app-root/src/public/assets
+
+and you likely want to pass config file to it: `/opt/app-root/src/config.php`
+
+If you mount such volumes to container, the directories will be empty. However
+there is built time stuff that needs to be placed there. I save such files
+to `/var/tmp/s2i-volume-save.tgz`, and the container will restore them at boot
+if the volumes are empty. Might be you build a new version or add an
+extension in new version, then you probably need to restore the files again
+manually.
 
 # S2I
 
