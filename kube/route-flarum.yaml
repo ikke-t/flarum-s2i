@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: flarum
+  namespace: flarum
+spec:
+  host: CHANGE_ME
+  port:
+    targetPort: 8080 
+  to:
+    kind: Service
+    name: flarum
