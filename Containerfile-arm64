@@ -1,0 +1,39 @@
+FROM registry.access.redhat.com/ubi9/php-81:latest
+
+# Add application sources to a directory that the assemble script expects them
+# and set permissions so that the container runs without root access
+USER 0
+# ADD app-src /tmp/src
+RUN git clone https://github.com/ikke-t/flarum.git /tmp/src -b 1.x-ikke
+ENV DOCUMENTROOT=/public
+
+RUN chown -R 1001:0 /tmp/src
+USER 1001
+
+# Latest releases available at https://github.com/aptible/supercronic/releases
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.34/supercronic-linux-arm64 \
+    SUPERCRONIC_SHA1SUM=4ab6343b52bf9da592e8b4bb7ae6eb5a8e21b71e \
+    SUPERCRONIC=supercronic-linux-arm64
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
+ && echo "*/1 * * * * cd /opt/app-root/src/ && php flarum schedule:run >> /dev/null 2>&1" > /opt/app-root/src/scheduler.cron
+
+# Install the dependencies
+RUN /usr/libexec/s2i/assemble
+
+RUN tar czf /var/tmp/s2i-volume-save.tgz storage public/assets
+
+COPY restore_volumes.sh ${PHP_CONTAINER_SCRIPTS_PATH}/pre-start/105_restore_volumes.sh
+
+VOLUME $HOME/public/assets $HOME/storage
+
+COPY entrypoint.sh /usr/bin/entrypoint.sh
+
+# Set the default command for the resulting image
+# CMD /usr/libexec/s2i/run
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+CMD ["--worker-type=flarum"]
