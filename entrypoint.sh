@@ -48,7 +48,7 @@ case "$ARG_WORKER_TYPE" in
         ;;
     scheduler)
         echo "starting flarum scheduler via supercronic"
-        supercronic /opt/app-root/src/scheduler.cron
+        /opt/app-root/src/supercronic /opt/app-root/src/scheduler.cron
         ;;
     *)
         echo "worker type must be set"

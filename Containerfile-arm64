@@ -18,8 +18,7 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
 RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
  && chmod +x "$SUPERCRONIC" \
- && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
- && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
+ && ln -s "${SUPERCRONIC}" supercronic \
  && echo "*/1 * * * * cd /opt/app-root/src/ && php flarum schedule:run >> /dev/null 2>&1" > /opt/app-root/src/scheduler.cron
 
 # Install the dependencies
